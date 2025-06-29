@@ -1,4 +1,3 @@
-
 import express from "express"
 import cors from "cors"
 import 'dotenv/config'
@@ -11,50 +10,40 @@ import orderRouter from "./routes/orderRoutes.js"
 import contactRouter from "./routes/contactRoute.js"
 import subscriberRoutes from "./routes/subscriberRoutes.js";
 
-
 // App config
 const app = express()
 const port = process.env.PORT || 4000
 connectdb()
 conectCloudinary()
 
+// ✅ Enable JSON parsing (this was missing)
+app.use(express.json())
+
+// ✅ CORS configuration
 const corsOptions = {
   origin: [
     "https://ecomerace-frontend.vercel.app",
     "https://ecomerace-admin.vercel.app",
-    "https://ecomerace-admin-6ayqnyjtv-sarmad-rafiqs-projects.vercel.app" // ✅ ADD THIS
+    "https://ecomerace-admin-6ayqnyjtv-sarmad-rafiqs-projects.vercel.app"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 };
+app.use(cors(corsOptions))
 
-app.use(cors(corsOptions));
-
-
-
-// Api end points
+// ✅ Routes
 app.get('/', (req, res) => {
-    res.send("working")
+  res.send("working")
 })
 
 app.use("/api/user", userRouter)
-
-// ------Product Route-------
 app.use("/api/product", productRouter)
-
-// Cart Here
 app.use("/api/cart", cartRouter)
-
-// Orders Route is Here************
 app.use("/api/order", orderRouter)
-// ----------contact
 app.use("/api/contact", contactRouter)
+app.use("/api/newsletter", subscriberRoutes)
 
-// ----------subscribe
-app.use("/api/newsletter", subscriberRoutes);
-
-
-//  server start
+// ✅ Server start
 app.listen(port, () =>
-    console.log("Server response : ", port)
+  console.log("Server response : ", port)
 )
