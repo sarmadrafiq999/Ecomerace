@@ -21,11 +21,12 @@ conectCloudinary()
 const corsOptions = {
     origin: [
         "https://ecomerace-frontend.vercel.app",
-        "https://ecomerace-admin.vercel.app" // Add this
+        "https://ecomerace-admin-qmq6nbimj-sarmad-rafiqs-projects.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    credentials: true
 };
+
 app.use(cors(corsOptions));
 
 
