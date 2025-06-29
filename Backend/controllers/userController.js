@@ -66,34 +66,36 @@ const registerUser = async (req, res) => {
     }
 }
 // Admin login
-const adminLogin = async (req, res) => {
+const adminLogin = async (req, res, next) => {
     try {
-        // loginSchema.parse(req.body);
-
         const { email, password } = req.body;
         const userExsist = await User.findOne({ email });
         if (!userExsist) {
             return res.status(400).json({ message: "Invalid Email" });
-
         }
-        const isMatch = await userExsist.comparepassword(password)
+
+        const isMatch = await userExsist.comparepassword(password);
         const token = await userExsist.genrateToken();
+
+        if (!userExsist.admin) {
+            return res.status(403).json({ message: "Access denied. Not an admin." });
+        }
+
         if (isMatch) {
-            res.status(200).json({
+            return res.status(200).json({
                 msg: "Login Successfully",
                 token,
                 userId: userExsist._id.toString()
             });
         } else {
-            return res.status(404).json({ message: "Invalid  Password" });
+            return res.status(404).json({ message: "Invalid Password" });
         }
 
     } catch (error) {
-        res.status(500).json(
-            "Internal server error"
-        )
-        next(error)
+        console.error("Admin login error:", error.message);
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
+
 
 export { loginUser, registerUser, adminLogin }
