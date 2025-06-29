@@ -18,15 +18,16 @@ const port = process.env.PORT || 4000
 connectdb()
 conectCloudinary()
 
-// middlewares
-app.use(express.json())
 const corsOptions = {
-    origin: "https://ecomerace-frontend.vercel.app", // frontend domain
+    origin: [
+        "https://ecomerace-frontend.vercel.app",
+        "https://ecomerace-admin.vercel.app" // Add this
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 };
-
 app.use(cors(corsOptions));
+
 
 // Api end points
 app.get('/', (req, res) => {
