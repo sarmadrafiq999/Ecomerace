@@ -19,15 +19,17 @@ connectdb()
 conectCloudinary()
 
 const corsOptions = {
-    origin: [
-        "https://ecomerace-frontend.vercel.app",
-        "https://ecomerace-admin-qmq6nbimj-sarmad-rafiqs-projects.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
+  origin: [
+    "https://ecomerace-frontend.vercel.app",
+    "https://ecomerace-admin.vercel.app",
+    "https://ecomerace-admin-6ayqnyjtv-sarmad-rafiqs-projects.vercel.app" // ✅ ADD THIS
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 };
 
 app.use(cors(corsOptions));
+
 
 
 // Api end points
