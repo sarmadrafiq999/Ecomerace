@@ -20,7 +20,10 @@ conectCloudinary()
 
 // middlewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: "https://ecomerace-frontend.vercel.app",
+    credentials: true
+}));
 
 // Api end points
 app.get('/', (req, res) => {
