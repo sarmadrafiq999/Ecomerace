@@ -53,7 +53,7 @@ const registerUser = async (req, res) => {
             email,
             password,
         })
-        const token = await userCreated.genrateToken()
+const token = await userExsist.generateToken();
 
         res.status(201).json({
             msg: "User created successfully",
@@ -76,7 +76,7 @@ const adminLogin = async (req, res, next) => {
         }
 
         const isMatch = await userExsist.comparepassword(password);
-        const token = await userExsist.genrateToken();
+const token = await userExsist.generateToken();
 
         if (!userExsist.isAdmin) {
 
