@@ -9,16 +9,16 @@ const createToken = (id) => {
 // Login user
 const loginUser = async (req, res) => {
     try {
-        // loginSchema.parse(req.body);
-
         const { email, password } = req.body;
         const userExsist = await User.findOne({ email });
+
         if (!userExsist) {
             return res.status(400).json({ message: "Invalid Email" });
-
         }
-        const isMatch = await userExsist.comparepassword(password)
+
+        const isMatch = await userExsist.comparepassword(password);
         const token = await userExsist.genrateToken();
+
         if (isMatch) {
             res.status(200).json({
                 success: true,
@@ -27,16 +27,15 @@ const loginUser = async (req, res) => {
                 userId: userExsist._id.toString()
             });
         } else {
-            return res.status(404).json({ success: false, message: "Invalid  Password" });
+            return res.status(404).json({ success: false, message: "Invalid Password" });
         }
 
     } catch (error) {
-        res.status(500).json(
-            "Internal server error"
-        )
-        next(error)
+        console.error("Login error:", error.message);
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
+
 
 // Login user
 const registerUser = async (req, res) => {
