@@ -1,11 +1,13 @@
 import User from "../models/userModel.js"
+import jwt from "jsonwebtoken";
 
 
 
 // token function
 const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET)
+  return jwt.sign({ id }, process.env.JWT_SECRET)
 }
+
 // Login user
 const loginUser = async (req, res) => {
     try {
@@ -76,7 +78,8 @@ const adminLogin = async (req, res, next) => {
         const isMatch = await userExsist.comparepassword(password);
         const token = await userExsist.genrateToken();
 
-        if (!userExsist.admin) {
+        if (!userExsist.isAdmin) {
+
             return res.status(403).json({ message: "Access denied. Not an admin." });
         }
 
