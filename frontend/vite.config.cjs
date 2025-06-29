@@ -1,7 +1,9 @@
-const { defineConfig } = require('./node_modules/vite/dist/node');
-const react = require('./node_modules/@vitejs/plugin-react/dist/index.d.mts');
+const { defineConfig } = require('vite');
+const react = require('@vitejs/plugin-react').default;
 
 module.exports = defineConfig({
   plugins: [react()],
-  server:{port:5173}
+  server: {
+    port: 5173,
+  },
 });
