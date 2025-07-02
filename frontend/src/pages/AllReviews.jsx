@@ -30,7 +30,7 @@ const AllReviews = () => {
       <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">What Our Customers Say</h2>
 
       {reviews.length === 0 ? (
-        <p className="text-center text-gray-500">No reviews found.</p>
+        <p className="text-center text-gray-500">Loading...</p>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review) => (

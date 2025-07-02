@@ -115,7 +115,7 @@ const List = ({ token }) => {
 
       {/* No Results Found */}
       {filteredList.length === 0 && (
-        <p className="mt-6 text-center text-gray-500">No matching products found.</p>
+        <p className="mt-6 text-center text-gray-500">Loading...</p>
       )}
     </div>
   );

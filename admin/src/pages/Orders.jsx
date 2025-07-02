@@ -145,7 +145,7 @@ const Orders = ({ token }) => {
         ))}
 
         {orders.length === 0 && (
-          <p className="text-center text-gray-500 mt-8">No orders found.</p>
+          <p className="text-center text-gray-500 mt-8">Loading...</p>
         )}
       </div>
     </div>

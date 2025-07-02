@@ -23,9 +23,7 @@ const ReviewsPage = () => {
       <h2 className="text-2xl font-bold mb-6">Latest Reviews</h2>
 
       {reviews.length === 0 ? (
-        <p className="text-gray-600">
-          No reviews available for this product yet.
-        </p>
+        <p className="text-gray-600">Loading...</p>
       ) : (
         reviews.map((review) => (
           <div

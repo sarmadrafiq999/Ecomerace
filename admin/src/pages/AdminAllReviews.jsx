@@ -63,7 +63,7 @@ const AdminAllReviews = () => {
       </div>
 
       {filteredReviews.length === 0 ? (
-        <p className="text-center text-gray-500">No reviews found.</p>
+        <p className="text-center text-gray-500">Loading...</p>
       ) : (
         <div className="grid gap-6">
           {filteredReviews.map((review) => (
