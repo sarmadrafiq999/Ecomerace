@@ -80,6 +80,7 @@ const placeOrderStripe = async (req, res) => {
             cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
             line_items,
             mode: 'payment',
+            locale: 'auto',
         })
         res.json({ success: true, session_url: session.url })
     } catch (error) {
@@ -119,11 +120,7 @@ const verifyStripe = async (req, res) => {
 }
 
 
-// Placing order using Razorpay Method
-const placeOrderRazorpay = async (req, res) => {
 
-
-}
 
 //All orders data for the Admin pannal
 const allOrders = async (req, res) => {
@@ -171,4 +168,4 @@ const updateStatus = async (req, res) => {
 
 
 
-export { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, verifyStripe }
+export { placeOrder, placeOrderStripe, allOrders, userOrders, updateStatus, verifyStripe }

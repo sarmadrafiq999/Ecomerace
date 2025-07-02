@@ -9,6 +9,7 @@ import cartRouter from "./routes/cartRoute.js"
 import orderRouter from "./routes/orderRoutes.js"
 import contactRouter from "./routes/contactRoute.js"
 import subscriberRoutes from "./routes/subscriberRoutes.js";
+import reviewRouter from "./routes/reviewRoutes.js"
 
 // App config
 const app = express()
@@ -22,6 +23,8 @@ app.use(express.json())
 // ✅ CORS configuration
 const corsOptions = {
   origin: [
+    "http://localhost:5173",         // ✅ newly added
+    "http://localhost:5174",         // existing
     "https://ecomerace-frontend.vercel.app",
     "https://ecomerace-admin.vercel.app",
     "https://ecomerace-admin-6ayqnyjtv-sarmad-rafiqs-projects.vercel.app"
@@ -29,7 +32,8 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 };
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+
 
 // ✅ Routes
 app.get('/', (req, res) => {
@@ -37,11 +41,12 @@ app.get('/', (req, res) => {
 })
 
 app.use("/api/user", userRouter)
-app.use("/api/product", productRouter)
+app.use("/api/product", productRouter)  
 app.use("/api/cart", cartRouter)
 app.use("/api/order", orderRouter)
 app.use("/api/contact", contactRouter)
 app.use("/api/newsletter", subscriberRoutes)
+app.use("/api/reviews",reviewRouter)
 
 // ✅ Server start
 app.listen(port, () =>

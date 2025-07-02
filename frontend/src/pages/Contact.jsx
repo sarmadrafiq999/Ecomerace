@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Tittle from "../components/Tittle";
-import { FaPhone } from "react-icons/fa";
+import { FaPhone, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 import NewsLetterBox from "../components/NewsLetterBox";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
@@ -44,31 +44,54 @@ const Contact = () => {
   };
 
   return (
-    <div>
+    <div className="px-4 sm:px-6 md:px-12 lg:px-20 max-w-[1440px] mx-auto">
+      {/* Title */}
       <div className="text-center text-2xl pt-10 border-t">
         <Tittle text1={"CONTACT"} text2={"US"} />
       </div>
 
-      <div className="my-10 flex flex-col justify-center md:flex-row gap-10 mb-28 px-4">
-        {/* Contact Info */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center items-start gap-6">
-          <FaPhone className="text-4xl text-gray-600 mb-4" />
-          <p className="font-semibold text-xl text-gray-600">Our Store</p>
-          <p className="text-gray-500">
-            William 563 <br /> Street, TDA, PAK
-          </p>
-          <p className="text-gray-500">
-            Tel: +92 12345678765 <br /> Email: sar@gmail.com
-          </p>
-          <p className="font-semibold text-xl text-gray-600">
-            Careers at SOLAR CONECT
-          </p>
-          <p className="text-gray-500">
-            Learn about our teams and job openings.
-          </p>
-          <button className="border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500">
-            Explore Jobs
-          </button>
+      {/* Main Contact Section */}
+      <div className="my-10 flex flex-col md:flex-row gap-10 mb-28">
+        {/* HQ & Careers Info */}
+        <div className="w-full md:w-1/2 bg-gradient-to-br from-orange-50 to-white p-8 rounded-xl shadow-xl border border-orange-100">
+          {/* HQ Info */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-3">
+              Afshan Clothes <span className="text-orange-500">HQ</span>
+            </h2>
+            <div className="flex items-start gap-3 text-gray-600 text-sm mb-2">
+              <FaMapMarkerAlt className="mt-1 text-orange-500" />
+              <p>William 563 Street, TDA, Pakistan</p>
+            </div>
+            <div className="flex items-start gap-3 text-gray-600 text-sm mb-2">
+              <FaPhone className="mt-1 text-orange-500" />
+              <p>+92 123 4567 8765</p>
+            </div>
+            <div className="flex items-start gap-3 text-gray-600 text-sm">
+              <FaEnvelope className="mt-1 text-orange-500" />
+              <p>support@afshanclothes.com</p>
+            </div>
+          </div>
+
+          {/* Careers Section */}
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              Careers at Afshan
+            </h3>
+            <p className="text-gray-600 text-sm leading-6">
+              Join our fashion-forward team and help redefine modern ethnic
+              wear with creativity, culture, and class.
+            </p>
+           <a
+  href="https://pk.indeed.com/q-fashion-designer-jobs.html"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-block mt-4 border border-orange-500 text-orange-600 px-6 py-2 text-sm font-medium rounded hover:bg-orange-500 hover:text-white transition-all duration-300"
+>
+  Explore Careers
+</a>
+
+          </div>
         </div>
 
         {/* Contact Form */}
@@ -81,7 +104,7 @@ const Contact = () => {
               onChange={handleChange}
               type="text"
               placeholder="Enter your name"
-              className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
               required
             />
 
@@ -92,7 +115,7 @@ const Contact = () => {
               onChange={handleChange}
               type="email"
               placeholder="Enter your email"
-              className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
               required
             />
 
@@ -103,13 +126,13 @@ const Contact = () => {
               onChange={handleChange}
               rows="5"
               placeholder="Enter your message"
-              className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              className="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
               required
             ></textarea>
 
             <button
               type="submit"
-              className="mt-4 bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-all duration-300"
+              className="mt-4 bg-orange-500 text-white px-6 py-3 rounded hover:bg-orange-600 transition-all duration-300"
             >
               Send Message
             </button>
@@ -117,6 +140,7 @@ const Contact = () => {
         </div>
       </div>
 
+      {/* Newsletter Box */}
       <NewsLetterBox />
     </div>
   );

@@ -3,13 +3,24 @@ import { ShopContext } from "../context/ShopContext";
 import Tittle from "../components/Tittle";
 import CartTotal from "../components/CartTotal";
 import { FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { products, currency, cartItems, upDataQuantity, navigate } =
-    useContext(ShopContext);
+  const {
+    products,
+    currency,
+    cartItems,
+    upDataQuantity,
+    cartLoaded, // ✅ now included
+  } = useContext(ShopContext);
+
   const [cartData, setCartData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!cartLoaded) return;
+
     const temData = [];
     for (const items in cartItems) {
       for (const item in cartItems[items]) {
@@ -23,7 +34,12 @@ const Cart = () => {
       }
     }
     setCartData(temData);
-  }, [cartItems]);
+
+    if (temData.length === 0) {
+      toast.info("Can't access, having no cart item!");
+      navigate("/");
+    }
+  }, [cartItems, cartLoaded, navigate]);
 
   return (
     <div className="border-t pt-14 px-4 sm:px-6 md:px-12 lg:px-20 max-w-[1440px] mx-auto">
@@ -36,6 +52,8 @@ const Cart = () => {
       <div className="space-y-6">
         {cartData.map((item, index) => {
           const prodData = products.find((product) => product._id === item._id);
+          if (!prodData) return null;
+
           return (
             <div
               key={index}
@@ -43,7 +61,11 @@ const Cart = () => {
             >
               {/* Image & Info */}
               <div className="flex flex-1 items-start gap-4">
-                <img src={prodData.image[0]} alt="" className="w-20 h-20 object-cover rounded-md" />
+                <img
+                  src={prodData.image[0]}
+                  alt={prodData.name}
+                  className="w-20 h-20 object-cover rounded-md"
+                />
                 <div>
                   <p className="text-lg font-medium">{prodData.name}</p>
                   <div className="flex items-center gap-4 mt-2 text-sm">
@@ -51,7 +73,9 @@ const Cart = () => {
                       {currency}
                       {prodData.price}
                     </p>
-                    <span className="px-3 py-1 border bg-slate-50 rounded-md">{item.size}</span>
+                    <span className="px-3 py-1 border bg-slate-50 rounded-md">
+                      {item.size}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -85,19 +109,32 @@ const Cart = () => {
       </div>
 
       {/* Cart Summary & Checkout */}
-      <div className="flex justify-end my-20">
-        <div className="w-full sm:w-[450px]">
-          <CartTotal />
-          <div className="w-full text-end">
-            <button
-              onClick={() => navigate("/place-order")}
-              className="bg-black text-white text-sm mt-6 px-8 py-3 rounded hover:bg-gray-900 transition-all duration-200"
-            >
-              PROCEED TO CHECKOUT
-            </button>
+      {cartData.length > 0 && (
+        <div className="flex justify-end my-20">
+          <div className="w-full sm:w-[450px]">
+            <CartTotal />
+            <div className="w-full text-end">
+              <button
+                onClick={() => {
+                  if (cartData.length === 0) {
+                    toast.error("Your cart is empty. Add items first.");
+                    return;
+                  }
+                  navigate("/place-order");
+                }}
+                disabled={cartData.length === 0}
+                className={`text-sm mt-6 px-8 py-3 rounded transition-all duration-200 w-full text-white ${
+                  cartData.length === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-black hover:bg-gray-900"
+                }`}
+              >
+                PROCEED TO CHECKOUT
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

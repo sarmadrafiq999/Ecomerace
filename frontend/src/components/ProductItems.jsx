@@ -15,11 +15,11 @@ const ProductItems = ({ id, image, name, price }) => {
         />
       </div>
 
-        <p className="pt-3 pb-1 text-sm">{name}</p>
-        <p className="font-medium text-sm">
+        <p className=" pt-1 font-medium text-sm">
           {currency}
           {price}
         </p>
+        <p className="pt-1 pb-1 text-sm">{name}</p>
     </Link>
   );
 };

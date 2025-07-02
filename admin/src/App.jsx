@@ -9,6 +9,7 @@ import Login from "./components/Login";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminAllReviews from "./pages/AdminAllReviews";
 export const currency='$'
 
 //--------- Accssing Backend URLs----------
@@ -39,6 +40,7 @@ const App = () => {
                 <Route path="/add" element={<Add token={token} />} />
                 <Route path="/list" element={<List token={token} />} />
                 <Route path="/orders" element={<Orders token={token} />} />
+                  <Route path="/reviews" element={<AdminAllReviews />} />
               </Routes>
             </div>
           </div>

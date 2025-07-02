@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Tittle from "../components/Tittle";
 import CartTotal from "../components/CartTotal";
-import { FaCcMastercard, FaCcVisa } from "react-icons/fa";
+import { FaCcMastercard } from "react-icons/fa";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -230,17 +230,7 @@ const PlaceOredr = () => {
               ></p>
               <FaCcMastercard className="text-2xl mx-4" />
             </div>
-            <div
-              onClick={() => setMethod("razorpay")}
-              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
-            >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === "razorpay" ? "bg-green-400 " : ""
-                }`}
-              ></p>
-              <FaCcVisa className=" text-2xl mx-4" />
-            </div>
+
             <div
               onClick={() => setMethod("cod")}
               className="flex items-center gap-3 border p-2 px-3 cursor-pointer"

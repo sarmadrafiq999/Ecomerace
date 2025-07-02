@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-// import { products } from "../assets/assets";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,20 +6,19 @@ import { useNavigate } from "react-router-dom";
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-  // commen var to use
   const currency = "$";
   const delivery_fee = 10;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  // search bars
+
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  // hook for the get data function
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token") || "");
-  // ...........Hook for the cart data
   const [cartItems, setCartItems] = useState({});
-  // !Add to cart function
+  const [cartLoaded, setCartLoaded] = useState(false); // ✅ Track when cart is loaded
+
+  const navigate = useNavigate();
+
   const addToCart = async (itemId, size) => {
     if (!size || size.trim() === "") {
       toast.error("Please select at least one size");
@@ -39,6 +37,7 @@ const ShopContextProvider = (props) => {
       cartData[itemId][size] = 1;
     }
     setCartItems(cartData);
+
     if (token) {
       try {
         await axios.post(
@@ -55,8 +54,9 @@ const ShopContextProvider = (props) => {
         toast.error(error.message);
       }
     }
+    return true;
   };
-  // .......cart count
+
   const getCartCount = () => {
     let totalCount = 0;
     for (const items in cartItems) {
@@ -70,7 +70,7 @@ const ShopContextProvider = (props) => {
     }
     return totalCount;
   };
-  // ..........Total Amount of the CartItems
+
   const totalAmountCart = () => {
     let totalAmount = 0;
     for (const items in cartItems) {
@@ -83,19 +83,18 @@ const ShopContextProvider = (props) => {
         } catch (error) {}
       }
     }
-
     return totalAmount;
   };
 
-  // -------Cart quantity deletion------
   const upDataQuantity = async (itemId, size, quantity) => {
     let cartData = structuredClone(cartItems);
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
+
     if (token) {
       try {
         await axios.post(
-          `${backendUrl}/api/cart/update`,  
+          `${backendUrl}/api/cart/update`,
           { itemId, size, quantity },
           {
             headers: {
@@ -110,7 +109,6 @@ const ShopContextProvider = (props) => {
     }
   };
 
-  // =====getUserCart=====
   const getUserCart = async (token) => {
     try {
       const response = await axios.post(
@@ -125,27 +123,17 @@ const ShopContextProvider = (props) => {
 
       if (response.data.success) {
         setCartItems(response.data.cartData);
-        // console.log(response.data.cartData);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+    } finally {
+      setCartLoaded(true); // ✅ Mark cart as loaded
     }
   };
 
-  useEffect(() => {
-    console.log("cartitems are here", cartItems);
-  }, [cartItems]);
-
-  useEffect(() => {
-    if (token) {
-      getUserCart(token);
-    }
-  }, [token]);
-
-  // Get DATA from the api-------------**************------------
   const getAllProducts = async () => {
     try {
       const response = await axios.get(`${backendUrl}/api/product/list`);
@@ -159,11 +147,80 @@ const ShopContextProvider = (props) => {
       toast.error(error.message);
     }
   };
+
+  const submitReview = async (productId, rating, message) => {
+    if (!token) return toast.error("Please login to submit review.");
+
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/reviews`,
+        { productId, rating, message },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        toast.success("Review submitted!");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to submit review");
+    }
+  };
+
+  const getAverageRating = async (productId) => {
+    try {
+      const res = await axios.get(
+        `${backendUrl}/api/reviews/average/${productId}`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      return { avgRating: 0, count: 0 };
+    }
+  };
+
+  const getLatestReviews = async (productId) => {
+    try {
+      const res = await axios.get(
+        `${backendUrl}/api/reviews/latest/${productId}`
+      );
+      return res.data;
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+      return [];
+    }
+  };
+  // getAllReviews
+  const getAllReviews = async () => {
+    try {
+      const res = await axios.get(`${backendUrl}/api/reviews/all`);
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching all reviews:", error);
+      toast.error("Failed to load all reviews.");
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getUserCart(token);
+    }
+  }, [token]);
+
   useEffect(() => {
     getAllProducts();
   }, []);
 
   const value = {
+    getLatestReviews,
+    getAverageRating,
+    submitReview,
     products,
     currency,
     delivery_fee,
@@ -181,9 +238,14 @@ const ShopContextProvider = (props) => {
     backendUrl,
     token,
     setToken,
+    getAllReviews,
+    cartLoaded,// ✅ Provided in context
+    getAllProducts,
   };
+
   return (
     <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>
   );
 };
+
 export default ShopContextProvider;
