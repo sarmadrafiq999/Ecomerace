@@ -57,7 +57,7 @@ const Navbar = () => {
       <NavLink to="/" className="no-active-style">
         <h1 className="text-xl font-bold tracking-wider">
           <div className="flex items-center">
-            <FaAccusoft className="text-4xl text-gray-700 mr-4" />
+            <FaAccusoft className="text-4xl text-gray-700 mr-2" />
             <span className="text-orange-500">Sarmad</span>
             <span className="text-gray-700">Cloth</span>
           </div>
@@ -84,7 +84,7 @@ const Navbar = () => {
       </ul>
 
       {/* Right Icons */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         <FaSearch
           onClick={() => setShowSearch(true)}
           className="w-5 cursor-pointer"
