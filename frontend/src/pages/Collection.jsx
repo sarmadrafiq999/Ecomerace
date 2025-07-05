@@ -72,15 +72,10 @@ const Collection = () => {
 
     setFilterProducts(sorted);
   };
-
-  // 🔁 Reload products if navigating back to this route
   useEffect(() => {
-    if (products.length === 0) {
       getAllProducts();
-    }
   }, [location.pathname]);
 
-  // Apply filters on dependency change
   useEffect(() => {
     applyFilter();
   }, [category, subcategory, search, products]);
