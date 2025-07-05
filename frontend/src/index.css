@@ -38,9 +38,18 @@ a.active hr {
     display: none;
 }
 
+body {
+  background-color: white;
+}
+
 @media (max-width: 640px) {
-    a.active {
-        background-color: black;
-        color: white;
-    }
+  .mobile-nav a.active {
+    background-color: black;
+    color: white;
+  }
+
+  .no-active-style.active {
+    background-color: transparent;
+    color: inherit;
+  }
 }

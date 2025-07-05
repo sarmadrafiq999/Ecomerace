@@ -23,5 +23,8 @@
     "razorpay": "^2.9.6",
     "stripe": "^18.2.1",
     "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "connect-history-api-fallback": "^2.0.0"
   }
 }

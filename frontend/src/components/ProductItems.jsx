@@ -7,19 +7,20 @@ const ProductItems = ({ id, image, name, price }) => {
 
   return (
     <Link className="text-gray-700 cursor-pointer  " to={`/product/${id}`}>
-      <div className="aspect-3/4 overflow-hidden">
+      <div className="aspect-2/3 overflow-hidden">
         <img
+          loading="lazy"
           className="w-full h-full  hover:scale-110 transition ease-in-out"
           src={image[0]}
-          alt=""
+          alt={name}
         />
       </div>
 
-        <p className=" pt-1 font-medium text-sm">
-          {currency}
-          {price}
-        </p>
-        <p className="pt-1 pb-1 text-sm">{name}</p>
+      <p className=" pt-1 font-medium text-sm">
+        {currency}
+        {price}
+      </p>
+      <p className="pt-1 pb-1 text-sm">{name}</p>
     </Link>
   );
 };

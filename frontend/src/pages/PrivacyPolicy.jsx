@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
   return (
     <section className="bg-gradient-to-br from-white via-gray-50 to-gray-100 py-16 px-6 md:px-10 min-h-screen">
       <div className="max-w-4xl mx-auto text-gray-800" data-aos="fade-up">
-        <h1 className="text-4xl font-extrabold text-center mb-10 text-indigo-700">
+        <h1 className="text-4xl font-extrabold text-center mb-10 text-orange-500">
           Privacy Policy
         </h1>
 

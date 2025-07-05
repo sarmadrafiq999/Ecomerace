@@ -1,6 +1,13 @@
 import React, { useState, useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { FaBars, FaTimes, FaLock, FaSearch, FaUser } from "react-icons/fa";
+import {
+  FaBars,
+  FaTimes,
+  FaLock,
+  FaSearch,
+  FaUser,
+  FaAccusoft,
+} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -16,14 +23,13 @@ const Navbar = () => {
 
   const [visible, setVisible] = useState(false);
 
-  // Logout function
   const logOut = () => {
     setToken("");
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     toast.success("Logged out");
   };
 
-  // Handle Cart Icon Click
   const handleCartClick = () => {
     if (!cartLoaded) return;
 
@@ -47,11 +53,19 @@ const Navbar = () => {
 
   return (
     <div className="relative z-50 flex items-center justify-between py-5 font-medium bg-white">
-      <NavLink to="/">
-        <h1 className="text-xl font-bold">Afshan</h1>
+      {/* Logo */}
+      <NavLink to="/" className="no-active-style">
+        <h1 className="text-xl font-bold tracking-wider">
+          <div className="flex items-center">
+            <FaAccusoft className="text-4xl text-gray-700 mr-4" />
+            <span className="text-orange-500">Sarmad</span>
+            <span className="text-gray-700">Cloth</span>
+          </div>
+        </h1>
       </NavLink>
 
-      <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+      {/* Desktop Nav */}
+      <ul className="hidden sm:flex gap-3 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>Home</p>
         </NavLink>
@@ -69,6 +83,7 @@ const Navbar = () => {
         </NavLink>
       </ul>
 
+      {/* Right Icons */}
       <div className="flex items-center gap-6">
         <FaSearch
           onClick={() => setShowSearch(true)}
@@ -105,21 +120,24 @@ const Navbar = () => {
           </p>
         </button>
 
+        {/* Mobile Menu Icon */}
         <FaBars
           onClick={() => setVisible(true)}
           className="w-6 cursor-pointer sm:hidden"
         />
       </div>
 
-      {/* Sidebar for small screens */}
+      {/* Sidebar for Mobile */}
       {visible && (
         <>
+          {/* No dark overlay */}
           <div
             onClick={() => setVisible(false)}
-            className="fixed inset-0  bg-opacity-50 z-40"
+            className="fixed inset-0 z-40"
           ></div>
 
-          <div className="fixed top-0 bottom-0 right-0 w-64 bg-white z-50 shadow-md transition-transform">
+          {/* Sidebar */}
+          <div className="fixed top-0 bottom-0 right-0 w-[80%] sm:w-64 bg-white z-50 shadow-md transition-transform duration-300">
             <div
               onClick={() => setVisible(false)}
               className="flex items-center gap-3 bg-gray-200 p-4 cursor-pointer"
@@ -128,7 +146,7 @@ const Navbar = () => {
               <p>Close</p>
             </div>
 
-            <div className="flex flex-col text-gray-600">
+            <div className="flex flex-col text-gray-600 mobile-nav">
               <NavLink
                 onClick={() => setVisible(false)}
                 className="py-2 pl-6 border"

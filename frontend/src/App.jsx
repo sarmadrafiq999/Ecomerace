@@ -21,6 +21,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import AllReviews from "./pages/AllReviews";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   useEffect(() => {
@@ -32,7 +34,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+<div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
       <ToastContainer />
       <Navbar />
       <SearchBar />
@@ -50,7 +52,8 @@ const App = () => {
         <Route path="/reviews/:productId" element={<ReviewsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/reviews" element={<AllReviews />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
       <Footer />
     </div>

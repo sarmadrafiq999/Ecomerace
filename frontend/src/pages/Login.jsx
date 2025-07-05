@@ -9,6 +9,7 @@ const Login = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const resetFields = (keepEmailAndPassword = false) => {
     setName("");
@@ -30,8 +31,8 @@ const Login = () => {
 
         if (response.data.token) {
           toast.success("Registered successfully!");
-          setCurrentState("Login"); // Switch to login
-          resetFields(true); // Clear name, keep email & password for login
+          setCurrentState("Login");
+          resetFields(true);
         } else {
           toast.error(response.data.message || "Registration failed");
         }
@@ -43,9 +44,13 @@ const Login = () => {
 
         if (response.data.success) {
           setToken(response.data.token);
-          localStorage.setItem("token", response.data.token);
+          if (rememberMe) {
+            localStorage.setItem("token", response.data.token);
+          } else {
+            sessionStorage.setItem("token", response.data.token);
+          }
           toast.success(response.data.message || "Login successful!");
-          resetFields(); // Clear all
+          resetFields();
         } else {
           toast.error(response.data.message || "Login failed");
         }
@@ -68,7 +73,7 @@ const Login = () => {
       className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
     >
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
-        <p className="prata-regular text-3xl"> {currentstate} </p>
+        <p className="prata-regular text-3xl">{currentstate}</p>
         <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
       </div>
 
@@ -101,15 +106,35 @@ const Login = () => {
         required
       />
 
-      <div className="w-full flex justify-between text-sm mt-[-8px]">
-        <p className="cursor-pointer">Forgot your password</p>
+      {currentstate === "Login" && (
+        <div className="w-full flex justify-between items-center text-sm">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="cursor-pointer"
+            />
+            Remember Me
+          </label>
+
+          <p
+            className="cursor-pointer hover:text-orange-600"
+            onClick={() => navigate("/forgot-password")}
+          >
+            Forgot your password?
+          </p>
+        </div>
+      )}
+
+      <div className="w-full flex justify-end text-sm">
         {currentstate === "Login" ? (
           <p
             onClick={() => {
-              resetFields(); // clear everything
+              resetFields();
               setCurrentState("Sing Up");
             }}
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-orange-600"
           >
             Create Account
           </p>
@@ -118,14 +143,14 @@ const Login = () => {
             onClick={() => {
               setCurrentState("Login");
             }}
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-orange-600"
           >
             Login Here
           </p>
         )}
       </div>
 
-      <button className="bg-black text-white font-light px-8 py-2 mt-4">
+      <button className="bg-black text-white font-light px-8 py-2 my-4 cursor-pointer">
         {currentstate === "Login" ? "Sign In" : "Sign Up"}
       </button>
     </form>

@@ -28,7 +28,7 @@ const NewsLetterBox = () => {
 
   return (
     <div className="text-center">
-      <p className="text-2xl font-medium text-gray-800">
+      <p className="text-2xl font-medium text-gray-800 pt-3">
         Subscribe now & get 20% off
       </p>
       <p className="text-gray-400 mt-3">
@@ -47,7 +47,7 @@ const NewsLetterBox = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <button
-          className="bg-black text-white text-xs px-10 py-4"
+          className="bg-black text-white text-xs px-10 py-4  cursor-pointer"
           type="submit"
         >
           SUBSCRIBE

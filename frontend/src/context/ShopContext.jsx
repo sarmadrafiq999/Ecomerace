@@ -13,7 +13,9 @@ const ShopContextProvider = (props) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [products, setProducts] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [token, setToken] = useState(
+    localStorage.getItem("token") || sessionStorage.getItem("token") || ""
+  );
   const [cartItems, setCartItems] = useState({});
   const [cartLoaded, setCartLoaded] = useState(false); // ✅ Track when cart is loaded
 
@@ -239,7 +241,7 @@ const ShopContextProvider = (props) => {
     token,
     setToken,
     getAllReviews,
-    cartLoaded,// ✅ Provided in context
+    cartLoaded, // ✅ Provided in context
     getAllProducts,
   };
 
